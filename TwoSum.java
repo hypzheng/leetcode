@@ -1,9 +1,10 @@
 import java.util.*;
 
-// assume each input has ONLY 1 solution
-// and cannot use an element twice
-
-class LC1
+/**
+ * Question: given a value, find indexes from an array that the sum of those elements equals to the given value.
+ * Assume each input has only 1 solution, and an element can only be used once.
+ */
+public class TwoSum
 {
 	public static void main(String[] args) {
 		int[] sample1 = {1, 2, 3};
