@@ -1,3 +1,5 @@
+package Others;
+
 /**
  * Question: find the 1st and 2nd smallest elements in an array.
  */
