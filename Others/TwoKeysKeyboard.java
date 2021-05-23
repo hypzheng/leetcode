@@ -1,3 +1,5 @@
+package Others;
+
 /**
  * Has only 2 operations: copy & paste
  * Given the initial character is A, where n = 1

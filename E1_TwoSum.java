@@ -1,5 +1,3 @@
-package Easy;
-
 import java.util.*;
 
 /**
@@ -9,7 +7,7 @@ import java.util.*;
  * and you may not use the same element twice.
  * You can return the answer in any order.
  */
-public class LC1_TwoSum
+public class E1_TwoSum
 {
 	public static void main(String[] args) {
 		int[][] intArray = {

@@ -1,3 +1,5 @@
+package Others;
+
 /**
  * Has only 2 operations: multiply by 2 & substract 1
  * Calculate the minimum steps from input A to output B

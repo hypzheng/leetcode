@@ -1,31 +1,25 @@
-package Medium;
-
 /**
  * Given two non-empty linked lists representing two non-negative integers.
  * The digits are stored in reverse order, and each of their nodes contains a single digit.
  * Add the two numbers and return the sum as a linked list.
  * Assume the two numbers do not contain any leading zero, except the number 0 itself.
  */
-public class LC2_Add2Nums
+public class M2_Add2Nums
 {
 	public static void main(String[] args) {
-		ListNode list1 = new ListNode(3);
-		list1.next = new ListNode(6, list1.next);
-		list1.next.next = new ListNode(5);
-
-		ListNode list2 = new ListNode(4, list1);
-		ListNode list3 = new ListNode(2, list2);
-
-//		Solution s = new Solution();
-//		ListNode list3 = s.add2Nums(list1, list2);
-
-		System.out.println(list1.next.next.val);
+//		ListNode list1 = new ListNode(3);
+//		list1.next = new ListNode(6, list1.next);
+//		list1.next.next = new ListNode(5);
+//
+//		ListNode list2 = new ListNode(4, list1);
+//		ListNode list3 = new ListNode(2, list2);
+//
+////		Solution s = new Solution();
+////		Easy.ListNode list3 = s.add2Nums(list1, list2);
+//
+//		System.out.println(list1.next.next.val);
 	}
-}
 
-/* Calculation method */
-class Solution
-{
 	public ListNode add2Nums(ListNode l1, ListNode l2) {
 
 		ListNode list = new ListNode();
@@ -40,14 +34,4 @@ class Solution
 		}
 		return list;
 	}
-}
-
-/* Singly-linked list */
-class ListNode
-{
-	int val;
-	ListNode next;
-	ListNode() {}
-	ListNode(int val) { this.val = val; }
-	ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }

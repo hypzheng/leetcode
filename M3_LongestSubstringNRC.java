@@ -1,10 +1,8 @@
-package Medium;
-
 /**
  * Given a string s, find the length of the longest substring without repeating characters.
  * i.e. for input "abcabcbb", proper substring is "abc", output = 3.
  */
-public class LC3_LongestSubstringNRC
+public class M3_LongestSubstringNRC
 {
 	private static final int SIZE = 128;
 
