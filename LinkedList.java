@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  *  Singly-linked list functions
  */
@@ -44,22 +46,79 @@ public class LinkedList
 		size++;
 	}
 
+	/* 搜索链表中的某个元素 */
+	public boolean search(int key)
+	{
+		ListNode curr = head;
+		while (curr != null) {
+			if (curr.val == key) {
+				size--;
+				return true;
+			}
+			curr = curr.next;
+		}
+		return false;
+	}
 
-	/* 删除链表中的一个节点，并返回到该节点 */
-	public int delete(int item)
+	/* 删除链表中的某个元素 */
+	public boolean deleteData(int key)
 	{
 		ListNode prev = null;
 		ListNode curr = head;
 
-		return 0;
+		//curr为空说明链表为空, 直接返回假
+		while (curr != null) {
+			//当curr所在节点值是需要删除的元素时, 重做link
+			if (curr.val == key) {
+				if (prev == null) {
+					head = curr.next;
+				} else {
+					prev.next = curr.next;
+				}
+				size--;
+				return true;
+			}
+			//当curr所在节点值不是需要删除的元素时, 继续遍历
+			prev = curr;
+			curr = curr.next;
+		}
+		return false;
 	}
 
+	/* 删除链表中的第n个节点 */
+	public boolean deleteIndex(LinkedList list, int num)
+	{
+		ListNode prev = null;
+		ListNode curr = head;
+
+		//若要删除的项数大于链表元素个数-1，直接返回假
+		if (num < list.size) {
+			for (int i = 0; i < num; i++) {
+				prev = curr;
+				curr = curr.next;
+			}
+			if (prev == null) {
+				head = curr.next;
+			} else {
+				prev.next = curr.next;
+			}
+			size--;
+			return true;
+		}
+		return false;
+	}
+
+	/* 删除链表中所有节点 */
 	public void clearList()
 	{
-		ListNode prev = null;
 		ListNode curr = head;
+		while (curr != null) {
+			head = curr.next;
+			curr.next = null;
+			curr = head;
+			size--;
+		}
 	}
-
 
 	/* 反转链表，原链表被改动 */
 	public void reverseList()
@@ -76,25 +135,6 @@ public class LinkedList
 			curr = temp;	//curr向表尾移动
 		}
 		this.head = prev;	//反转结束后, prev所在位置应为链表头
-	}
-
-	/* 生成新的反转链表，原链表无改动 */
-	public LinkedList newReversedList()
-	{
-		LinkedList list = new LinkedList();
-		ListNode prev = null;
-		ListNode curr = head;
-		ListNode temp;	//哑节点
-
-		//curr为空时，说明反转已结束
-		while (curr != null) {
-			temp = curr.next;	//使用临时节点temp来标记curr下一位节点
-			curr.next = prev;	//反转箭头
-			prev = curr;	//向后移动prev
-			curr = temp;	//向后移动curr
-		}
-		list.head = prev;	//反转结束后, prev所在位置应为新链表头
-		return list;
 	}
 
 	/* 使链表能够按格式打印至控制台 */

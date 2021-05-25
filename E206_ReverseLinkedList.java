@@ -9,13 +9,13 @@ public class E206_ReverseLinkedList
 	{
 		LinkedList list3 = new LinkedList();
 		LinkedList list4 = new LinkedList();
-		int[] digitArray1 = {8, 6, 4, 2, 0};
-		int[] digitArray2 = {9, 7, 5, 3};
+		int[] digitArray3 = {};
+		int[] digitArray4 = {9, 7, 5, 3};
 
-		for (int i : digitArray1) {
+		for (int i : digitArray3) {
 			list3.insertTail(i);
 		}
-		for (int i: digitArray2) {
+		for (int i: digitArray4) {
 			list4.insertHead(i);
 		}
 
