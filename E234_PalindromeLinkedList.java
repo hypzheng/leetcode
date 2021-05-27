@@ -28,8 +28,7 @@ public class E234_PalindromeLinkedList
 	}
 
 	/**
-	 * 1. 数组存储链表值: 时空复杂度O(n)/O(n)
-	 * Runtime 9ms, beat 32/34
+	 * 1.数组存储链表值: 时空复杂度 O(n)/O(n), beat 32/34
 	 */
 	public static boolean isPalindrome1(ListNode head)
 	{
@@ -56,9 +55,9 @@ public class E234_PalindromeLinkedList
 	}
 
 	/**
-	 * 2. 快慢指针: 时空复杂度O(n)/O(1)
-	 * 复原链表: Runtime 4ms, beat 97/74
-	 * 不复原链表: Runtime 3ms, beat 100/89
+	 * 2.快慢指针: 时空复杂度 O(n)/O(1)
+	 * 	 复原链表: beat 97/74
+	 * 	 不复原链表: beat 100/89
 	 */
 	public static boolean isPalindrome2(ListNode head)
 	{
