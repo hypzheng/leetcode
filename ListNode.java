@@ -1,5 +1,5 @@
 /**
- *  Singly-linked list
+ * Singly-linked list
  */
 public class ListNode
 {

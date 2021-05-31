@@ -9,7 +9,7 @@ public class E206_ReverseLinkedList
 	{
 		LinkedList list3 = new LinkedList();
 		LinkedList list4 = new LinkedList();
-		int[] digitArray3 = {};
+		int[] digitArray3 = {8, 6, 4, 2, 0};
 		int[] digitArray4 = {9, 7, 5, 3};
 
 		for (int i : digitArray3) {
@@ -19,12 +19,12 @@ public class E206_ReverseLinkedList
 			list4.insertHead(i);
 		}
 
-		System.out.println("list3: " + list3);
-		System.out.println("list4: " + list4);
+		System.out.println("list3: " + list3.printList());
+		System.out.println("list4: " + list4.printList());
 		list3.head = reverseList1(list3.head);
 		list4.head = reverseList2(list4.head);
-		System.out.println("list3: " + list3);
-		System.out.println("list4: " + list4);
+		System.out.println("list3: " + list3.printList());
+		System.out.println("list4: " + list4.printList());
 	}
 
 	/**

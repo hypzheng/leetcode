@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  *  Singly-linked list functions
  */
@@ -12,8 +10,8 @@ public class LinkedList
 	/* 构造器 */
 	public LinkedList()
 	{
-		head = null;	//头节点
-		tail = null;	//尾节点
+		head = null;
+		tail = null;
 		size = 0;
 	}
 
@@ -137,8 +135,8 @@ public class LinkedList
 		this.head = prev;	//反转结束后, prev所在位置应为链表头
 	}
 
-	/* 使链表能够按格式打印至控制台 */
-	public String toString()
+	/* 打印链表至控制台 */
+	public String printList()
 	{
 		StringBuilder str = new StringBuilder("[");
 		ListNode curr = head;
