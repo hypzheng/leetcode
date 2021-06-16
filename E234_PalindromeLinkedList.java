@@ -28,38 +28,11 @@ public class E234_PalindromeLinkedList
 	}
 
 	/**
-	 * 1.数组存储链表值: 时空复杂度 O(n)/O(n), beat 32/34
-	 */
-	public static boolean isPalindrome1(ListNode head)
-	{
-		//遍历链表, 并把链表里的值复制进一个数组里: 时间O(n)
-		//数组大小和链表元素个数为n: 空间O(n)
-		ArrayList<Integer> values = new ArrayList<>();
-		ListNode curr = head;
-		while (curr != null) {
-			values.add(curr.val);
-			curr = curr.next;
-		}
-
-		//使用双指针判断回文, 执行了O(n/2)次判断: 时间O(n)
-		int front = 0;
-		int back = values.size() - 1;
-		while (front < back) {
-			if (!values.get(front).equals(values.get(back))) {
-				return false;
-			}
-			front++;
-			back--;
-		}
-		return true;
-	}
-
-	/**
-	 * 2.快慢指针: 时空复杂度 O(n)/O(1)
+	 * 1.快慢指针: 时空复杂度 O(n)/O(1)
 	 * 	 复原链表: beat 97/74
 	 * 	 不复原链表: beat 100/89
 	 */
-	public static boolean isPalindrome2(ListNode head)
+	public static boolean isPalindrome1(ListNode head)
 	{
 		//若链表元素个数为0或1，则必为回文
 		if (head == null || head.next == null) {
@@ -108,5 +81,32 @@ public class E234_PalindromeLinkedList
 			midLeft = temp;	//midLeft向原链表表头方向移动
 		}
 		return isPld;
+	}
+
+	/**
+	 * 2.数组存储链表值: 时空复杂度 O(n)/O(n), beat 32/34
+	 */
+	public static boolean isPalindrome2(ListNode head)
+	{
+		//遍历链表, 并把链表里的值复制进一个数组里: 时间O(n)
+		//数组大小和链表元素个数为n: 空间O(n)
+		ArrayList<Integer> values = new ArrayList<>();
+		ListNode curr = head;
+		while (curr != null) {
+			values.add(curr.val);
+			curr = curr.next;
+		}
+
+		//使用双指针判断回文, 执行了O(n/2)次判断: 时间O(n)
+		int front = 0;
+		int back = values.size() - 1;
+		while (front < back) {
+			if (!values.get(front).equals(values.get(back))) {
+				return false;
+			}
+			front++;
+			back--;
+		}
+		return true;
 	}
 }

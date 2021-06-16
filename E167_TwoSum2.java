@@ -24,17 +24,37 @@ public class E167_TwoSum2
 		for (int i = 0; i < sums.length; i++) {
 			System.out.println(i+1 + ".  数组" + Arrays.toString(intArray[i]));
 			System.out.println("\t和为" + sums[i] + ",\t对应项数+1为" +
-					Arrays.toString(twoSum2(intArray[i], sums[i])));
+					Arrays.toString(twoSum1(intArray[i], sums[i])));
 		}
 		System.out.println(10>>>1);
 	}
 
 	/**
-	 * 1.二分查找: 时空复杂度 O(n log n)/O(1), beat 25/77
+	 * 1.双指针: 时空复杂度 O(n)/O(1), beat 100/87
+	 * 	 两个指针分别指向第一个元素位置和最后一个元素的位置.
+	 *   每次计算两个指针指向的两个元素之和，并和目标值比较.
+	 */
+	public static int[] twoSum1(int[] numbers, int target)
+	{
+		int left = 0, right = numbers.length - 1;
+		while (left < right) {
+			if (numbers[left] + numbers[right] < target) {
+				left++;
+			} else if (numbers[left] + numbers[right] > target) {
+				right--;
+			} else {
+				return new int[] {left + 1, right + 1};
+			}
+		}
+		return new int[] {-1, -1};
+	}
+
+	/**
+	 * 2.二分查找: 时空复杂度 O(n log n)/O(1), beat 25/77
 	 * 	 数组的长度是 n, 需要遍历数组一次确定第一个数, 时间复杂度是 O(n)
 	 * 	 寻找第二个数使用二分查找, 时间复杂度是 O(log n)
 	 */
-	public static int[] twoSum1(int[] numbers, int target)
+	public static int[] twoSum2(int[] numbers, int target)
 	{
 		for (int i = 0; i < numbers.length; i++) {
 			//把 target-numbers[i] 看作原始二分查找中的key
@@ -51,26 +71,6 @@ public class E167_TwoSum2
 				} else {
 					return new int[] {i + 1, mid + 1};
 				}
-			}
-		}
-		return new int[] {-1, -1};
-	}
-
-	/**
-	 * 2.双指针: 时空复杂度 O(n)/O(1), beat 100/87
-	 * 	 两个指针分别指向第一个元素位置和最后一个元素的位置.
-	 *   每次计算两个指针指向的两个元素之和，并和目标值比较.
-	 */
-	public static int[] twoSum2(int[] numbers, int target)
-	{
-		int left = 0, right = numbers.length - 1;
-		while (left < right) {
-			if (numbers[left] + numbers[right] < target) {
-				left++;
-			} else if (numbers[left] + numbers[right] > target) {
-				right--;
-			} else {
-				return new int[] {left + 1, right + 1};
 			}
 		}
 		return new int[] {-1, -1};
