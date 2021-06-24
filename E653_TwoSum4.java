@@ -17,8 +17,10 @@ public class E653_TwoSum4
 		}
 
 		bst.printBST(bst.BFS_iterative());
-		bst.printBST(bst.DFS_recursive(2));
-		bst.printBST(bst.DFS_iterative(2));
+		bst.printBST(bst.DFS_recursive(0));
+		bst.printBST(bst.DFS_iterative_preOrder());
+		bst.printBST(bst.DFS_iterative_postOrder1());
+		bst.printBST(bst.DFS_iterative_postOrder2());
 	}
 
 	/**
