@@ -8,20 +8,7 @@
  */
 public class E653_TwoSum4
 {
-	public static void main(String[] args)
-	{
-		BinaryTree bst = new BinaryTree();
-		int[] intArray = {5, 3, 8, 2, 4, 6, 1, 7};
-		for (int i : intArray) {
-			bst.insert(i);
-		}
 
-		bst.printBST(bst.BFS_iterative());
-		bst.printBST(bst.DFS_recursive(0));
-		bst.printBST(bst.DFS_iterative_preOrder());
-		bst.printBST(bst.DFS_iterative_postOrder1());
-		bst.printBST(bst.DFS_iterative_postOrder2());
-	}
 
 	/**
 	 * 1.指针: 时空复杂度 O(n)/O(n), beat 32/34

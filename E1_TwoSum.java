@@ -22,8 +22,8 @@ public class E1_TwoSum
 		};
 		for (int i = 0; i < sums.length; i++) {
 			System.out.println(i+1 + ".  数组" + Arrays.toString(intArray[i]));
-			System.out.println("\t和为" + sums[i] + ",\t对应项数为" +
-					Arrays.toString(twoSum2(intArray[i], sums[i])));
+			System.out.println("\t和: " + sums[i] + ",\t对应项数: " + Arrays.toString(twoSum1(intArray[i], sums[i])));
+			System.out.println("\t和: " + sums[i] + ",\t对应项数: " + Arrays.toString(twoSum2(intArray[i], sums[i])));
 		}
 	}
 

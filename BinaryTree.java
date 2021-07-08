@@ -17,33 +17,33 @@ public class BinaryTree
 	}
 
 	/* 插入新节点 */
-	public void insert(int item)
+	public void insert(int val)
 	{
 		if (root == null) {
-			root = new TreeNode(item);
+			root = new TreeNode(val);
 			size++;
 		} else {
-			insertChild(item, root);
+			insertChild(val, root);
 		}
 	}
 
 	/* 插入新子节点 (递归) */
-	private void insertChild(int item, TreeNode node)
+	private void insertChild(int val, TreeNode node)
 	{
 		//允许重复值时, 若新节点值 = 目标节点值, 则插入目标节点的右子节点处
-		if (item < node.val) {
+		if (val < node.val) {
 			if (node.left == null) {
-				node.left = new TreeNode(item);
+				node.left = new TreeNode(val);
 				size++;
 			} else {
-				insertChild(item, node.left);
+				insertChild(val, node.left);
 			}
 		} else {
 			if (node.right == null) {
-				node.right = new TreeNode(item);
+				node.right = new TreeNode(val);
 				size++;
 			} else {
-				insertChild(item, node.right);
+				insertChild(val, node.right);
 			}
 		}
 	}
@@ -118,31 +118,29 @@ public class BinaryTree
 	 * DFS算法 (深度优先): 栈迭代进行前/中/后序遍历
 	 * 时间复杂度: O(n). n 为二叉树的节点数量, 二叉树的遍历中每个节点只会被访问一次
 	 * 空间复杂度: O(n). 即迭代过程中显式栈的开销, 平均情况下为 O(log n), 最坏情况下(树为链状)为 O(n)
+	 * 前序遍历: 先访问根, 然后访问左子树, 最后访问右子树
+	 * 中序遍历: 先访问左子树, 然后访问根, 最后访问右子树
+	 * 后序遍历: 先访问左子树, 然后访问右子树, 最后访问根
+	 * 注意: while里包含if-else = 两个分开的while!
 	 *----------------------------------------------------------------------------------------*/
 
-	/* 前序遍历: 先访问根, 然后访问左子树, 最后访问右子树 */
-	public List<Integer> DFS_iterative_preOrder()
+	/* 前序遍历方法2: beat 100/72 */
+	public List<Integer> DFS_iterative_preOrder(TreeNode root)
 	{
+		Stack<TreeNode> stack = new Stack<>();
 		ArrayList<Integer> list = new ArrayList<>();
+		while (root != null || !stack.isEmpty())
+		{
+			//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
+			if (root != null) {
+				list.add(root.val);
+				stack.push(root);
+				root = root.left;
 
-		//若二叉树为空, 则打印出空list
-		if (root != null) {
-			TreeNode curr = root;
-			Stack<TreeNode> stack = new Stack<>();
-
-			while (curr != null || !stack.isEmpty())
-			{
-				//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
-				if (curr != null) {
-					list.add(curr.val);
-					stack.push(curr);
-					curr = curr.left;
-
-				//此时curr为空, 说明curr到达左子树最下端
-				} else {
-					curr = stack.pop();    //开始出栈
-					curr = curr.right;    //进入右子树, 开始新一轮左子树遍历
-				}
+			//此时curr为空, 说明curr到达左子树最下端
+			} else {
+				root = stack.pop();    //开始出栈
+				root = root.right;    //进入右子树, 开始新一轮左子树遍历
 			}
 		}
 		return list;
@@ -176,9 +174,32 @@ public class BinaryTree
 		return list;
 	}
 
-	/* 后序遍历: 先访问左子树, 然后访问右子树, 最后访问根 */
-	/* beat 100/53 */
-	public List<Integer> DFS_iterative_postOrder()
+	/* 后序遍历方法1: 使用ArrayList和Stack, beat 100/68 */
+	public List<Integer> DFS_iterative_postOrder1()
+	{
+		ArrayList<Integer> list = new ArrayList<>();
+
+		//若二叉树为空, 则打印出空list
+		if (root != null) {
+			TreeNode curr = root;
+			Stack<TreeNode> stack = new Stack<>();
+			stack.push(curr);
+			while (!stack.isEmpty()) {
+				TreeNode node = stack.pop();
+				if (node.left != null) {
+					stack.push(node.left);    //先将左节点入栈
+				}
+				if (node.right != null) {
+					stack.push(node.right);    //再将右节点入栈
+				}
+				list.add(0, node.val);    //最后逆序添加节点的值
+			}
+		}
+		return list;
+	}
+
+	/* 后序遍历方法2: 使用ArrayList和Stack, beat 100/53 */
+	public List<Integer> DFS_iterative_postOrder2()
 	{
 		ArrayList<Integer> list = new ArrayList<>();
 
@@ -216,30 +237,8 @@ public class BinaryTree
 		return list;
 	}
 
-	/* 另一种后序遍历: beat 100/68 */
-	public List<Integer> DFS_iterative_postOrder1()
-	{
-		ArrayList<Integer> list = new ArrayList<>();
-
-		if (root != null) {
-			Stack<TreeNode> stack = new Stack<>();
-			stack.push(root);
-			while (!stack.isEmpty()) {
-				TreeNode node = stack.pop();
-				if (node.left != null) {
-					stack.push(node.left);    //先将左节点入栈
-				}
-				if (node.right != null) {
-					stack.push(node.right);    //再将右节点入栈
-				}
-				list.add(0, node.val);    //最后逆序添加节点的值
-			}
-		}
-		return list;
-	}
-
-	/* 另一种后序遍历: beat 100/40 */
-	public List<Integer> DFS_iterative_postOrder2()
+	/* 后序遍历方法3: 使用LinkedList和Double Queue, beat 100/40 */
+	public List<Integer> DFS_iterative_postOrder3()
 	{
 		LinkedList<Integer> list = new LinkedList<>();
 
