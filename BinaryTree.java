@@ -48,6 +48,29 @@ public class BinaryTree
 		}
 	}
 
+	/* 二叉树高度 */
+	public int getHeight()
+	{
+		return calcHeight(root);
+	}
+
+	/* 设: 只存在root节点时高度为0 */
+	private int calcHeight(TreeNode node)
+	{
+		//if限制, 避免出现NullPointerException
+		if (node != null) {
+			int heightL = calcHeight(node.left);
+			int heightR = calcHeight(node.right);
+			if (heightL > heightR) {
+				return (heightL + 1);
+			} else {
+				return (heightR + 1);
+			}
+//			return 1 + Math.max(calcHeight(node.left), calcHeight(node.right));
+		}
+		return 0;	//此时root为空
+	}
+
 	/* 打印二叉树 */
 	public void printBST(List<Integer> list)
 	{
@@ -124,66 +147,94 @@ public class BinaryTree
 	 * 注意: while里包含if-else = 两个分开的while!
 	 *----------------------------------------------------------------------------------------*/
 
-	/* 前序遍历方法2: beat 100/72 */
+	/* 前序遍历方法: 使用List和Double Queue, beat 100/72 */
 	public List<Integer> DFS_iterative_preOrder(TreeNode root)
 	{
-		Stack<TreeNode> stack = new Stack<>();
-		ArrayList<Integer> list = new ArrayList<>();
+		Deque<TreeNode> stack = new LinkedList<>();
+		List<Integer> list = new ArrayList<>();
 		while (root != null || !stack.isEmpty())
 		{
 			//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
 			if (root != null) {
-				list.add(root.val);
+				list.add(root.val);	//do sth: 访问根结点
 				stack.push(root);
 				root = root.left;
-
+			}
 			//此时curr为空, 说明curr到达左子树最下端
-			} else {
-				root = stack.pop();    //开始出栈
-				root = root.right;    //进入右子树, 开始新一轮左子树遍历
+			else {
+				root = stack.pop();	//开始出栈
+				root = root.right;	//进入右子树, 开始新一轮左子树遍历
 			}
 		}
 		return list;
 	}
 
-	/* 中序遍历: 先访问左子树, 然后访问根, 最后访问右子树 */
-	public List<Integer> DFS_iterative_inOrder()
+	/* 中序遍历方法: 使用List和Double Queue, beat 100/73 */
+	public List<Integer> DFS_iterative_inOrder(TreeNode root)
 	{
-		ArrayList<Integer> list = new ArrayList<>();
+		Deque<TreeNode> stack = new LinkedList<>();
+		List<Integer> list = new ArrayList<>();
+		while (root != null || !stack.isEmpty())
+		{
+			//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
+			if (root != null) {
+				stack.push(root);
+				root = root.left;
+			}
+			//此时curr为空, 说明curr到达左子树最下端
+			else {
+				root = stack.pop();	//开始出栈
+				list.add(root.val);	//do sth: 访问根结点
+				root = root.right;	//进入右子树, 开始新一轮左子树遍历
+			}
+		}
+		return list;
+	}
 
-		//若二叉树为空, 则打印出空list
-		if (root != null) {
-			TreeNode curr = root;
-			Stack<TreeNode> stack = new Stack<>();
+	/* 后序遍历方法1: 使用List和Double Queue, beat 100/72 */
+	public List<Integer> DFS_iterative_postOrder1(TreeNode root)
+	{
+		Deque<TreeNode> stack = new LinkedList<>();
+		List<Integer> list = new ArrayList<>();
+		TreeNode prev = null;    //上次访问的节点
 
-			while (curr != null || !stack.isEmpty())
-			{
-				//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
-				if (curr != null) {
-					stack.push(curr);
-					curr = curr.left;
+		//while里包含if-else = 两个分开的while
+		while (root != null || !stack.isEmpty())
+		{
+			//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
+			if (root != null) {
+				stack.push(root);
+				root = root.left;
+			}
+			//此时curr为空, 说明curr到达左子树最下端
+			else {
+				root = stack.pop();	//开始出栈
 
-				//此时curr为空, 说明curr到达左子树最下端
+				//若根节点无右子树, 或其右子树已被访问过, 则该根节点才可以被访问
+				if (root.right == null || root.right == prev) {
+					list.add(root.val);	//do sth: 访问根结点
+					prev = root;	//更新
+					root = null;	//使下一次循环直接出栈下一个
+
+					//若根节点的左子树为空, 或其左子树刚被访问过, 则需要先进入其右子树. 该根节点再次入栈
 				} else {
-					curr = stack.pop();    //开始出栈
-					list.add(curr.val);
-					curr = curr.right;    //进入右子树, 开始新一轮左子树遍历
+					stack.push(root);	//再次压回栈
+					root = root.right;	//访问右子树
 				}
 			}
 		}
 		return list;
 	}
 
-	/* 后序遍历方法1: 使用ArrayList和Stack, beat 100/68 */
-	public List<Integer> DFS_iterative_postOrder1()
+	/* 后序遍历方法2: 使用ArrayList和Stack, beat 100/68 */
+	public List<Integer> DFS_iterative_postOrder2(TreeNode root)
 	{
 		ArrayList<Integer> list = new ArrayList<>();
+		Stack<TreeNode> stack = new Stack<>();
 
 		//若二叉树为空, 则打印出空list
 		if (root != null) {
-			TreeNode curr = root;
-			Stack<TreeNode> stack = new Stack<>();
-			stack.push(curr);
+			stack.push(root);
 			while (!stack.isEmpty()) {
 				TreeNode node = stack.pop();
 				if (node.left != null) {
@@ -198,52 +249,14 @@ public class BinaryTree
 		return list;
 	}
 
-	/* 后序遍历方法2: 使用ArrayList和Stack, beat 100/53 */
-	public List<Integer> DFS_iterative_postOrder2()
-	{
-		ArrayList<Integer> list = new ArrayList<>();
-
-		if (root != null) {
-			TreeNode curr = root;
-			TreeNode prev = null;    //上次访问的节点
-			Stack<TreeNode> stack = new Stack<>();
-
-			//while里包含if-else = 两个分开的while
-			while (curr != null || !stack.isEmpty())
-			{
-				//持续遍历到左子树最下端, 同时将每个根节点都保存到栈中
-				if (curr != null) {
-					stack.push(curr);
-					curr = curr.left;
-
-				//此时curr为空, 说明curr到达左子树最下端
-				} else {
-					curr = stack.pop();    //开始出栈
-
-					//若根节点无右子树, 或其右子树已被访问过, 则该根节点才可以被访问
-					if (curr.right == null || curr.right == prev) {
-						list.add(curr.val);
-						prev = curr;
-						curr = null;
-
-					//若根节点的左子树为空, 或其左子树刚被访问过, 则需要先进入其右子树. 该根节点再次入栈
-					} else {
-						stack.push(curr);
-						curr = curr.right;
-					}
-				}
-			}
-		}
-		return list;
-	}
-
 	/* 后序遍历方法3: 使用LinkedList和Double Queue, beat 100/40 */
-	public List<Integer> DFS_iterative_postOrder3()
+	public List<Integer> DFS_iterative_postOrder3(TreeNode root)
 	{
 		LinkedList<Integer> list = new LinkedList<>();
+		Deque<TreeNode> stack = new LinkedList<>();
 
+		//若二叉树为空, 则打印出空list
 		if (root != null) {
-			Deque<TreeNode> stack = new LinkedList<>();
 			stack.addFirst(root);
 			while (!stack.isEmpty()) {
 				TreeNode node = stack.removeFirst();
@@ -269,19 +282,16 @@ public class BinaryTree
 	{
 		List<Integer> list = new ArrayList<>();
 		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root); //使用offer()添加元素, poll()获取并移除元素: 可通过返回值判断成功与否
 
-		//若二叉树为空, 则打印出空list
-		if (root != null) {
-			queue.offer(root); //使用offer()添加元素, poll()获取并移除元素: 可通过返回值判断成功与否
-			while (!queue.isEmpty()) {
-				TreeNode curr = queue.poll();
-				list.add(curr.val);
-				if (curr.left != null) {
-					queue.offer(curr.left);
-				}
-				if (curr.right != null) {
-					queue.offer(curr.right);
-				}
+		while (!queue.isEmpty()) {
+			TreeNode curr = queue.poll();
+			list.add(curr.val);
+			if (curr.left != null) {
+				queue.offer(curr.left);
+			}
+			if (curr.right != null) {
+				queue.offer(curr.right);
 			}
 		}
 		return list;
