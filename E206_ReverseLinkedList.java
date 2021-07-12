@@ -19,12 +19,16 @@ public class E206_ReverseLinkedList
 			list4.insertHead(i);
 		}
 
-		System.out.println("list3: " + list3.printList());
-		System.out.println("list4: " + list4.printList());
+		System.out.print("list3: ");
+		list3.printList();
+		System.out.print("list4: ");
+		list4.printList();
 		list3.head = reverseList1(list3.head);
 		list4.head = reverseList2(list4.head);
-		System.out.println("list3: " + list3.printList());
-		System.out.println("list4: " + list4.printList());
+		System.out.print("list3: ");
+		list3.printList();
+		System.out.print("list4: ");
+		list4.printList();
 	}
 
 	/**

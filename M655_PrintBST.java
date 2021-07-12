@@ -26,40 +26,47 @@ public class M655_PrintBST
 			bst.insert(i);
 		}
 
-		System.out.println(3<<4);
+		List<List<String>> test = printTree(bst.root);
+		for (List<String> row : test) {
+			System.out.println(row);
+		}
 	}
 
 	/**
-	 *
-	 * 矩阵size: 行数 = height, 列数 = 2^height - 1
+	 * 1.递归: beat 100/50
+	 *   时间复杂度 O(h * 2^h), 其中 h 是树的高度，填充长度为 h * (2^h-1) 的 List
+	 *   空间复杂度 O(h * 2^h), List 长度为 h * (2^h-1)
 	 */
 	public static List<List<String>> printTree(TreeNode root)
 	{
-		List<List<String>> table = new ArrayList<>();
-
 		//矩阵size: 行数 = 树高度, 列数 = 1 x 2^树高度 - 1
 		int numRows = getHeight(root);
 		int numCols = (1 << numRows) - 1;
 
-		String[][] matrix = new String[numRows][numCols];
-
-		for (int i = 0; i < matrix.length; i++) {
-
+		//初始化List, 填充空字符串
+		List<List<String>> table = new ArrayList<>(numRows);
+		for (int i = 0; i < numRows; i++) {
+			List<String> rows = new ArrayList<>(numCols);
+			for (int j = 0; j < numCols; j++) {
+				rows.add("");
+			}
+			table.add(rows);
 		}
 
-
+		//填充数字
+		fillMatrix(table, root, 0, 0, numCols);
 		return table;
 	}
 
-	/**/
-	private static void fillMatrix(TreeNode root, String[][] matrix, int row, int left, int right)
+	/* 二分查找中位, 存入二维数组 */
+	private static void fillMatrix(List<List<String>> matrix, TreeNode root, int row, int lo, int hi)
 	{
-		for (String[] strings : matrix) {
-			Arrays.fill(strings, "");
-		}
-
 		if (root != null) {
-			matrix[row][(left + right)/2] = "" ;
+			int mid = (lo + hi) / 2;
+			matrix.get(row).set(mid, Integer.toString(root.val));
+
+			fillMatrix(matrix, root.left, row + 1, lo, mid);
+			fillMatrix(matrix, root.right, row + 1, mid, hi);
 		}
 	}
 

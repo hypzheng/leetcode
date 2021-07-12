@@ -136,7 +136,7 @@ public class LinkedList
 	}
 
 	/* 打印链表至控制台 */
-	public String printList()
+	public void printList()
 	{
 		StringBuilder str = new StringBuilder("[");
 		ListNode curr = head;
@@ -148,6 +148,7 @@ public class LinkedList
 			curr = curr.next;
 		}
 		str.append("]");
-		return str.toString();
+		System.out.println(str);
+//		return str.toString();
 	}
 }

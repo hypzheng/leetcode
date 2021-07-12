@@ -21,8 +21,10 @@ public class E234_PalindromeLinkedList
 			list2.insertHead(i);
 		}
 
-		System.out.println("list1: " + list1.printList());
-		System.out.println("list2: " + list2.printList());
+		System.out.print("list1: ");
+		list1.printList();
+		System.out.print("list2: ");
+		list2.printList();
 		System.out.println("Is list1 palindrome? " + isPalindrome1(list1.head));
 		System.out.println("Is list2 palindrome? " + isPalindrome2(list2.head));
 	}
