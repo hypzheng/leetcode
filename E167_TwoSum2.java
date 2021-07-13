@@ -1,13 +1,6 @@
 import java.util.Arrays;
 
 /**
- * Given an array of integers numbers that is already sorted in non-decreasing order,
- * find two numbers such that they add up to a specific target number.
- * Return the indices of the two numbers (1-indexed) as an integer array answer of size 2,
- * where 1 <= answer[0] < answer[1] <= numbers.length.
- * The tests are generated such that there is exactly one solution.
- * You may not use the same element twice.
- *
  * 给定一个已按照升序排列的整数数组 numbers，请你从数组中找出两个数满足相加之和等于目标数 target。
  * 函数应该以长度为 2 的整数数组的形式返回这两个数的下标值。numbers 的下标 从 1 开始计数，
  * 所以答案数组应当满足 1 <= answer[0] < answer[1] <= number.length。
@@ -18,15 +11,12 @@ public class E167_TwoSum2
 	public static void main(String[] args)
 	{
 		int[] sums = {0, 9, 9, 10, 12};
-		int[][] intArray = {
-				{-1, 0, 1}, {3, 6, 9}, {3, 4, 5}, {2, 4, 6, 8}, {3, 3, 6, 6, 12, 12, 18, 18}
-		};
+		int[][] intArray = {{-1, 0, 1}, {3, 6, 9}, {3, 4, 5}, {2, 4, 6, 8}, {3, 3, 6, 6, 12, 12, 18, 18}};
 		for (int i = 0; i < sums.length; i++) {
-			System.out.println(i+1 + ".  数组" + Arrays.toString(intArray[i]));
+			System.out.println((i + 1) + ".  数组" + Arrays.toString(intArray[i]));
 			System.out.println("\t和为" + sums[i] + ",\t对应项数+1为" +
 					Arrays.toString(twoSum1(intArray[i], sums[i])));
 		}
-		System.out.println(10>>>1);
 	}
 
 	/**
