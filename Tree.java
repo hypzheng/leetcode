@@ -1,141 +1,42 @@
 import java.util.*;
 import java.util.LinkedList;
 
-/**
- * Binary tree functions
- */
-public class BinaryTree
+public class Tree
 {
 	TreeNode root;    //根节点
-	int size;
+	int size;	//节点总数
 
 	/* 构造器 */
-	public BinaryTree()
+	public Tree()
 	{
 		root = null;
 		size = 0;
 	}
 
-	/* 插入新节点 */
-	public void insert(int val)
-	{
-		if (root == null) {
-			root = new TreeNode(val);
-			size++;
-		} else {
-			insertChild(val, root);
-		}
-	}
-
-	/* 插入新子节点 (递归) */
-	private void insertChild(int val, TreeNode node)
-	{
-		//允许重复值时, 若新节点值 = 目标节点值, 则插入目标节点的右子节点处
-		if (val < node.val) {
-			if (node.left == null) {
-				node.left = new TreeNode(val);
-				size++;
-			} else {
-				insertChild(val, node.left);
-			}
-		} else {
-			if (node.right == null) {
-				node.right = new TreeNode(val);
-				size++;
-			} else {
-				insertChild(val, node.right);
-			}
-		}
-	}
-
-	/* 二叉树高度 */
-	public int getHeight()
-	{
-		return calcHeight(root);
-	}
-
-	/* 设: 只存在root节点时高度为0 */
-	private int calcHeight(TreeNode node)
-	{
-		//if限制, 避免出现NullPointerException
-		if (node != null) {
-			int heightL = calcHeight(node.left);
-			int heightR = calcHeight(node.right);
-			if (heightL > heightR) {
-				return (heightL + 1);
-			} else {
-				return (heightR + 1);
-			}
-//			return 1 + Math.max(calcHeight(node.left), calcHeight(node.right));
-		}
-		return 0;	//此时root为空
-	}
-
-	/* 打印二叉树 */
-	public void printBST(List<Integer> list)
-	{
-		StringBuilder str = new StringBuilder("[");
-		for (int i = 0; i < list.size(); i++) {
-			str.append(list.get(i));
-			if (i < list.size()-1) {
-				str.append(", ");
-			}
-		}
-		str.append("]");
-		System.out.println(str);
-	}
-
-	/*-------------------------------------------------------------------------------*
-	 * DFS算法 (深度优先): 递归进行前/中/后序遍历
-	 * 时间复杂度: O(n). n 为二叉树的节点数量, 二叉树的遍历中每个节点只会被访问一次
-	 * 空间复杂度: O(n). 空间复杂度取决于栈深度，而栈深度在二叉树为一条链的情况下会达到 O(n)
-	 *-------------------------------------------------------------------------------*/
-	public List<Integer> DFS_recursive(int type)
+	/*-----------------------------------------------------------------------*
+	 * BFS算法 (广度优先): 队列迭代进行层次遍历 (先访问离根节点最近的节点)
+	 * 时间复杂度: O(n). n 为二叉树的节点数量, 即 BFS 需循环 n 次
+	 * 空间复杂度: O(n). 最差情况 (平衡二叉树) 时, 最多有 n/2 个树节点同时在队列中
+	 *-----------------------------------------------------------------------*/
+	public List<Integer> BFS_iterative()
 	{
 		List<Integer> list = new ArrayList<>();
-		TreeNode curr = root;
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root); //使用offer()添加元素, poll()获取并移除元素: 可通过返回值判断成功与否
 
-		//0:前序遍历, 1:中序遍历, 2:后序遍历
-		if (type == 0) {
-			preOrder_recursive(list, curr);
-		} else if (type == 1) {
-			inOrder_recursive(list, curr);
-		} else if (type == 2) {
-			postOrder_recursive(list, curr);
+		while (!queue.isEmpty()) {
+			TreeNode curr = queue.poll();
+			list.add(curr.val);
+			if (curr.left != null) {
+				queue.offer(curr.left);
+			}
+			if (curr.right != null) {
+				queue.offer(curr.right);
+			}
 		}
+		System.out.println();
 		return list;
 	}
-
-	/* 前序遍历: 先访问根, 然后访问左子树, 最后访问右子树 */
-	private void preOrder_recursive(List<Integer> list, TreeNode curr)
-	{
-		if (curr != null) {
-			list.add(curr.val);
-			preOrder_recursive(list, curr.left);
-			preOrder_recursive(list, curr.right);
-		}
-	}
-
-	/* 中序遍历: 先访问左子树, 然后访问根, 最后访问右子树 */
-	private void inOrder_recursive(List<Integer> list, TreeNode curr)
-	{
-		if (curr != null) {
-			inOrder_recursive(list, curr.left);
-			list.add(curr.val);
-			inOrder_recursive(list, curr.right);
-		}
-	}
-
-	/* 后序遍历: 先访问左子树, 然后访问右子树, 最后访问根 */
-	private void postOrder_recursive(List<Integer> list, TreeNode curr)
-	{
-		if (curr != null) {
-			postOrder_recursive(list, curr.left);
-			postOrder_recursive(list, curr.right);
-			list.add(curr.val);
-		}
-	}
-
 
 	/*----------------------------------------------------------------------------------------*
 	 * DFS算法 (深度优先): 栈迭代进行前/中/后序遍历
@@ -272,28 +173,54 @@ public class BinaryTree
 		return list;
 	}
 
-
-	/*-----------------------------------------------------------------------*
-	 * BFS算法 (广度优先): 队列迭代进行层次遍历 (先访问离根节点最近的节点)
-	 * 时间复杂度: O(n). n 为二叉树的节点数量, 即 BFS 需循环 n 次
-	 * 空间复杂度: O(n). 最差情况 (平衡二叉树) 时, 最多有 n/2 个树节点同时在队列中
-	 *-----------------------------------------------------------------------*/
-	public List<Integer> BFS_iterative()
+	/*-------------------------------------------------------------------------------*
+	 * DFS算法 (深度优先): 递归进行前/中/后序遍历
+	 * 时间复杂度: O(n). n 为二叉树的节点数量, 二叉树的遍历中每个节点只会被访问一次
+	 * 空间复杂度: O(n). 空间复杂度取决于栈深度，而栈深度在二叉树为一条链的情况下会达到 O(n)
+	 *-------------------------------------------------------------------------------*/
+	public List<Integer> DFS_recursive(int type)
 	{
 		List<Integer> list = new ArrayList<>();
-		Queue<TreeNode> queue = new LinkedList<>();
-		queue.offer(root); //使用offer()添加元素, poll()获取并移除元素: 可通过返回值判断成功与否
+		TreeNode curr = root;
 
-		while (!queue.isEmpty()) {
-			TreeNode curr = queue.poll();
-			list.add(curr.val);
-			if (curr.left != null) {
-				queue.offer(curr.left);
-			}
-			if (curr.right != null) {
-				queue.offer(curr.right);
-			}
+		//0:前序遍历, 1:中序遍历, 2:后序遍历
+		if (type == 0) {
+			preOrder_recursive(list, curr);
+		} else if (type == 1) {
+			inOrder_recursive(list, curr);
+		} else if (type == 2) {
+			postOrder_recursive(list, curr);
 		}
 		return list;
+	}
+
+	/* 前序遍历: 先访问根, 然后访问左子树, 最后访问右子树 */
+	private void preOrder_recursive(List<Integer> list, TreeNode curr)
+	{
+		if (curr != null) {
+			list.add(curr.val);
+			preOrder_recursive(list, curr.left);
+			preOrder_recursive(list, curr.right);
+		}
+	}
+
+	/* 中序遍历: 先访问左子树, 然后访问根, 最后访问右子树 */
+	private void inOrder_recursive(List<Integer> list, TreeNode curr)
+	{
+		if (curr != null) {
+			inOrder_recursive(list, curr.left);
+			list.add(curr.val);
+			inOrder_recursive(list, curr.right);
+		}
+	}
+
+	/* 后序遍历: 先访问左子树, 然后访问右子树, 最后访问根 */
+	private void postOrder_recursive(List<Integer> list, TreeNode curr)
+	{
+		if (curr != null) {
+			postOrder_recursive(list, curr.left);
+			postOrder_recursive(list, curr.right);
+			list.add(curr.val);
+		}
 	}
 }

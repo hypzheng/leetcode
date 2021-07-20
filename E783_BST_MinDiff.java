@@ -1,7 +1,5 @@
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Given the root of a Binary Search Tree (BST), return the minimum difference
@@ -14,7 +12,7 @@ public class E783_BST_MinDiff
 {
 	public static void main(String[] args)
 	{
-		BinaryTree bst = new BinaryTree();
+		Tree_BT bst = new Tree_BT();
 		int[] intArray = {24, 12, 36, 9, 18, 27, 39, 1, 15, 45};
 		for (int i : intArray) {
 			bst.insert(i);

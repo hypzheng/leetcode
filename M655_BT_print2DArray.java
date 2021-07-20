@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,11 +15,11 @@ import java.util.List;
  * 5.使用相同的规则输出子树。
  */
 
-public class M655_PrintBST
+public class M655_BT_print2DArray
 {
 	public static void main(String[] args)
 	{
-		BinaryTree bst = new BinaryTree();
+		Tree_BT bst = new Tree_BT();
 		int[] intArray = {5, 3, 8, 2, 4, 6, 1, 7};
 		for (int i : intArray) {
 			bst.insert(i);

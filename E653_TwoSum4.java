@@ -8,7 +8,7 @@ public class E653_TwoSum4
 {
 	public static void main(String[] args)
 	{
-		BinaryTree bst = new BinaryTree();
+		Tree_BT bst = new Tree_BT();
 		int[] intArray = {24, 12, 36, 9, 18, 27, 39, 1, 15, 45};
 		for (int i : intArray) {
 			bst.insert(i);
